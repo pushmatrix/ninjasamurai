@@ -3,8 +3,6 @@ class Tile
     @type = params.type || '.'
     @row  = params.row
     @col  = params.col
-    @width = 128
-    @height = 128
 
     @image = document.createElement('img')
     @image.src = switch(@type)
@@ -14,10 +12,8 @@ class Tile
         'img/rock.png'
 
   render: ->
-    game.context.fillStyle = '#ff9900'
-    game.context.drawImage(@image, @col * @width, @row * @height) 
-    game.context.fill()
+    game.context.drawImage(@image, @col * Tile.size, @row * Tile.size) 
 
 
-
+Tile.size = 64
 window.Tile = Tile

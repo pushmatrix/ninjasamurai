@@ -8,8 +8,6 @@
       this.type = params.type || '.';
       this.row = params.row;
       this.col = params.col;
-      this.width = 128;
-      this.height = 128;
       this.image = document.createElement('img');
       this.image.src = (function() {
         switch (this.type) {
@@ -22,14 +20,14 @@
     }
 
     Tile.prototype.render = function() {
-      game.context.fillStyle = '#ff9900';
-      game.context.drawImage(this.image, this.col * this.width, this.row * this.height);
-      return game.context.fill();
+      return game.context.drawImage(this.image, this.col * Tile.size, this.row * Tile.size);
     };
 
     return Tile;
 
   })();
+
+  Tile.size = 64;
 
   window.Tile = Tile;
 

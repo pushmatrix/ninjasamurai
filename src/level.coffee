@@ -1,7 +1,7 @@
 class Level
   constructor: (@map) ->
-    @rows = 5
-    @cols = 5
+    @rows = 10
+    @cols = 10
     @tiles = []
     @buildTiles()
 
