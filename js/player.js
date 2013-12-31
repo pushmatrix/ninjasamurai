@@ -19,7 +19,7 @@
     }
 
     Player.prototype.update = function() {
-      var col, dx, dy, nextPosition, row;
+      var col, dx, dy, nextPosition, oldPosition, row;
       nextPosition = {
         x: this.position.x,
         y: this.position.y
@@ -39,6 +39,10 @@
       dx = KeyHandler.mouse.x - this.position.x;
       dy = KeyHandler.mouse.y - this.position.y;
       this.angle = Math.atan2(dy, dx);
+      oldPosition = {
+        x: this.position.x,
+        y: this.position.y
+      };
       row = Math.floor(nextPosition.y / Tile.size);
       col = Math.floor(this.position.x / Tile.size);
       if (game.level.tiles[row][col].type === ".") {
@@ -47,7 +51,12 @@
       row = Math.floor(this.position.y / Tile.size);
       col = Math.floor(nextPosition.x / Tile.size);
       if (game.level.tiles[row][col].type === ".") {
-        return this.position.x = nextPosition.x;
+        this.position.x = nextPosition.x;
+      }
+      row = Math.floor(this.position.y / Tile.size);
+      col = Math.floor(this.position.x / Tile.size);
+      if ((row !== Math.floor(oldPosition.y / Tile.size)) || (col !== Math.floor(oldPosition.x / Tile.size))) {
+        return new Pathfinder(col, row, 5, 5);
       }
     };
 

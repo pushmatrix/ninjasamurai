@@ -21,6 +21,7 @@ class Player
     dy = KeyHandler.mouse.y - @position.y
     @angle = Math.atan2(dy, dx)
 
+    oldPosition = { x: @position.x, y: @position.y }
 
     # Major refactor needed
     row = Math.floor(nextPosition.y / Tile.size)
@@ -34,6 +35,16 @@ class Player
 
     if game.level.tiles[row][col].type == "."
       @position.x = nextPosition.x
+
+    # got into a new tile
+    row = Math.floor(@position.y / Tile.size)
+    col = Math.floor(@position.x / Tile.size) 
+    if (row != Math.floor(oldPosition.y / Tile.size)) || (col != Math.floor(oldPosition.x / Tile.size))
+      new Pathfinder(col, row, 5, 5)
+
+    
+
+
 
 
   render: ->

@@ -8,6 +8,7 @@
       this.type = params.type || '.';
       this.row = params.row;
       this.col = params.col;
+      this.fill = null;
       this.image = document.createElement('img');
       this.image.src = (function() {
         switch (this.type) {
@@ -20,7 +21,14 @@
     }
 
     Tile.prototype.render = function() {
-      return game.context.drawImage(this.image, this.col * Tile.size, this.row * Tile.size);
+      if (this.fill) {
+        game.context.beginPath();
+        game.context.fillStyle = this.fill;
+        game.context.rect(this.col * Tile.size, this.row * Tile.size, Tile.size, Tile.size);
+        return game.context.fill();
+      } else {
+        return game.context.drawImage(this.image, this.col * Tile.size, this.row * Tile.size);
+      }
     };
 
     return Tile;
