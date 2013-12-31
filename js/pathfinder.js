@@ -69,7 +69,11 @@
             newNode = this.nodeMap[row][col];
             if (tile === "." && (newNode != null ? newNode.state : void 0) !== 'c') {
               if (i * j !== 0) {
-                movementCost = 14;
+                if ((game.level.map[(node.row + i) * game.level.rows + node.col] === ".") && (game.level.map[node.row * game.level.rows + (node.col + j)] === ".")) {
+                  movementCost = 14;
+                } else {
+                  continue;
+                }
               } else {
                 movementCost = 10;
               }

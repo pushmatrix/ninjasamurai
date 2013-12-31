@@ -47,9 +47,16 @@ class Pathfinder
         # Is it a walkable space?
         newNode = @nodeMap[row][col]
         if tile == "." && newNode?.state != 'c'
+  
           # check for diagonal movement
           if i * j != 0
-            movementCost = 14
+            # check if it is possible to reach this node diagonally.
+            # do this by looking at the 2 tiles that make up the movement, and see if either of them are a wall.
+            if (game.level.map[(node.row + i) * game.level.rows + node.col] == ".") &&
+               (game.level.map[node.row * game.level.rows + (node.col + j)] == ".")
+              movementCost = 14
+            else
+              continue
           else
             movementCost = 10
 
