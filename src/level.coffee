@@ -17,4 +17,7 @@ class Level
       for col in [0..@cols - 1]
         @tiles[row][col].render()
 
+  getTile: (row, col) ->
+    @tiles[row][col]
+
 window.Level = Level

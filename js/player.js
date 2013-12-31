@@ -6,37 +6,49 @@
 
     function Player() {
       this.position = {
-        x: 0,
-        y: 0
+        x: 100,
+        y: 100
       };
       this.tile = {
         row: 0,
         col: 0
       };
-      this.speed = 5;
+      this.speed = 7;
       this.angle = 0;
       this.size = 32;
     }
 
     Player.prototype.update = function() {
-      var dx, dy;
+      var col, dx, dy, nextPosition, row;
+      nextPosition = {
+        x: this.position.x,
+        y: this.position.y
+      };
       if (KeyHandler.isDown('w')) {
-        this.position.y -= this.speed;
+        nextPosition.y -= this.speed;
       }
       if (KeyHandler.isDown('s')) {
-        this.position.y += this.speed;
+        nextPosition.y += this.speed;
       }
       if (KeyHandler.isDown('a')) {
-        this.position.x -= this.speed;
+        nextPosition.x -= this.speed;
       }
       if (KeyHandler.isDown('d')) {
-        this.position.x += this.speed;
+        nextPosition.x += this.speed;
       }
       dx = KeyHandler.mouse.x - this.position.x;
       dy = KeyHandler.mouse.y - this.position.y;
       this.angle = Math.atan2(dy, dx);
-      this.tile.row = Math.floor(this.position.y / Tile.size);
-      return this.tile.col = Math.floor(this.position.x / Tile.size);
+      row = Math.floor(nextPosition.y / Tile.size);
+      col = Math.floor(this.position.x / Tile.size);
+      if (game.level.tiles[row][col].type === ".") {
+        this.position.y = nextPosition.y;
+      }
+      row = Math.floor(this.position.y / Tile.size);
+      col = Math.floor(nextPosition.x / Tile.size);
+      if (game.level.tiles[row][col].type === ".") {
+        return this.position.x = nextPosition.x;
+      }
     };
 
     Player.prototype.render = function() {

@@ -50,6 +50,10 @@
       return _results;
     };
 
+    Level.prototype.getTile = function(row, col) {
+      return this.tiles[row][col];
+    };
+
     return Level;
 
   })();

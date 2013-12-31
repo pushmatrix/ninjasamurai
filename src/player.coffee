@@ -1,27 +1,39 @@
 class Player
   constructor: ->
-    @position = { x: 0, y: 0 }
+    @position = { x: 100, y: 100 }
     @tile     = { row: 0, col: 0 }
-    @speed = 5
+    @speed = 7
     @angle = 0
     @size = 32
   update: ->
+    nextPosition = { x: @position.x, y: @position.y }
     if KeyHandler.isDown 'w'
-      @position.y -= @speed
+      nextPosition.y -= @speed
     if KeyHandler.isDown 's'
-      @position.y += @speed
+      nextPosition.y += @speed
     if KeyHandler.isDown 'a'
-      @position.x -= @speed
+      nextPosition.x -= @speed
     if KeyHandler.isDown 'd'
-      @position.x += @speed
+      nextPosition.x += @speed
 
 
     dx = KeyHandler.mouse.x - @position.x
     dy = KeyHandler.mouse.y - @position.y
     @angle = Math.atan2(dy, dx)
 
-    @tile.row = Math.floor(@position.y / Tile.size)
-    @tile.col = Math.floor(@position.x / Tile.size)
+
+    # Major refactor needed
+    row = Math.floor(nextPosition.y / Tile.size)
+    col = Math.floor(@position.x / Tile.size)
+
+    if game.level.tiles[row][col].type == "."
+      @position.y = nextPosition.y
+
+    row = Math.floor(@position.y / Tile.size)
+    col = Math.floor(nextPosition.x / Tile.size)
+
+    if game.level.tiles[row][col].type == "."
+      @position.x = nextPosition.x
 
 
   render: ->
