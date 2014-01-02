@@ -9,6 +9,7 @@ class Game
 
   loadLevel: (map) =>
     @level = new Level(map)
+    @level.findIntersection(0, 0, 100, 100)
 
   render: =>
     @player.update()

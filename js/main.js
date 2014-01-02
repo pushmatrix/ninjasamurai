@@ -23,7 +23,8 @@
     }
 
     Game.prototype.loadLevel = function(map) {
-      return this.level = new Level(map);
+      this.level = new Level(map);
+      return this.level.findIntersection(0, 0, 100, 100);
     };
 
     Game.prototype.render = function() {

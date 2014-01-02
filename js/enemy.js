@@ -15,48 +15,19 @@
       this.target = null;
       this.waypoints = [];
       this.size = 24;
-      this.once = 0;
     }
 
     Enemy.prototype.update = function() {
-      var col, dx, dy, moveX, moveY, path, row, waypoint;
-      row = Math.floor(this.position.y / Tile.size);
-      col = Math.floor(this.position.x / Tile.size);
-      this.playerRow = Math.floor(game.player.position.y / Tile.size);
-      this.playerCol = Math.floor(game.player.position.x / Tile.size);
-      if (this.playerRow !== this.oldPlayerRow || this.playerCol !== this.oldPlayerCol) {
-        this.oldPlayerCol = this.playerCol;
-        this.oldPlayerRow = this.playerRow;
-        path = new Pathfinder(col, row, this.playerCol, this.playerRow);
-        this.waypoints = path.path;
-        if (waypoint = this.waypoints.pop()) {
-          this.target = {
-            x: waypoint[0] * Tile.size + Tile.size * 0.5,
-            y: waypoint[1] * Tile.size + Tile.size * 0.5
-          };
+      var row, tile, _i, _j, _len, _len1, _ref;
+      _ref = game.level.tiles;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        row = _ref[_i];
+        for (_j = 0, _len1 = row.length; _j < _len1; _j++) {
+          tile = row[_j];
+          tile.fill = null;
         }
       }
-      if (this.target) {
-        dx = this.target.x - this.position.x;
-        dy = this.target.y - this.position.y;
-        if ((Math.abs(dx) < 5) && (Math.abs(dy) < 5)) {
-          this.position.x = this.target.x;
-          this.position.y = this.target.y;
-          if (waypoint = this.waypoints.pop()) {
-            this.target = {
-              x: waypoint[0] * Tile.size + Tile.size * 0.5,
-              y: waypoint[1] * Tile.size + Tile.size * 0.5
-            };
-          }
-        } else {
-          this.angle = Math.atan2(dy, dx);
-          moveX = this.speed * Math.cos(this.angle);
-          moveY = this.speed * Math.sin(this.angle);
-          this.position.x += moveX;
-          this.position.y += moveY;
-        }
-      }
-      return this.rotation += (this.angle - this.rotation) / 6;
+      return game.level.findIntersection(this.position.x, this.position.y, game.player.position.x, game.player.position.y);
     };
 
     Enemy.prototype.render = function() {
