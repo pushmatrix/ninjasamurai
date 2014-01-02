@@ -59,11 +59,12 @@
 
     Player.prototype.render = function() {
       game.context.beginPath();
-      game.context.fillStyle = "#ff9900";
+      game.context.fillStyle = "#333";
       game.context.translate(this.size * 0.5, this.size * 0.5);
       game.context.rotate(-this.angle);
       game.context.translate(-this.position.x, -this.position.y);
       game.context.rect(0, 0, this.size, this.size);
+      game.context.rect(this.size, 18, 20, 4);
       game.context.resetTransform();
       return game.context.fill();
     };

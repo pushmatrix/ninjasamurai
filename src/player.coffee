@@ -17,6 +17,9 @@ class Player
       nextPosition.x += @speed
 
 
+    #dx = KeyHandler.mouse.x - Tile.size * game.level.cols * 0.5
+    #dy = KeyHandler.mouse.y - Tile.size * game.level.rows * 0.5
+    
     dx = KeyHandler.mouse.x - @position.x
     dy = KeyHandler.mouse.y - @position.y
     @angle = Math.atan2(dy, dx)
@@ -49,11 +52,12 @@ class Player
 
   render: ->
     game.context.beginPath()
-    game.context.fillStyle = "#ff9900"
+    game.context.fillStyle = "#333"
     game.context.translate(@size * 0.5, @size * 0.5)
     game.context.rotate(-@angle)
     game.context.translate(-@position.x, -@position.y)
     game.context.rect(0, 0, @size, @size)
+    game.context.rect(@size, 18, 20, 4)
     game.context.resetTransform()
     game.context.fill()
 window.Player = Player
