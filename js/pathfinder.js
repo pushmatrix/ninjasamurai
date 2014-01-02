@@ -5,24 +5,16 @@
   Pathfinder = (function() {
 
     function Pathfinder(startCol, startRow, targetCol, targetRow) {
-      var direction, finished, i, node, row, tile, _i, _j, _k, _len, _len1, _ref, _ref1;
+      var direction, finished, i, node, _i, _ref;
       this.startCol = startCol;
       this.startRow = startRow;
       this.targetCol = targetCol;
       this.targetRow = targetRow;
       this.open = this.closed = [];
-      _ref = game.level.tiles;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        row = _ref[_i];
-        for (_j = 0, _len1 = row.length; _j < _len1; _j++) {
-          tile = row[_j];
-          tile.fill = null;
-        }
-      }
       game.level.tiles[this.targetRow][this.targetCol].fill = "#ff0000";
       game.level.tiles[this.startRow][this.startCol].fill = "#00ff00";
       this.nodeMap = [];
-      for (i = _k = 0, _ref1 = game.level.rows; 0 <= _ref1 ? _k <= _ref1 : _k >= _ref1; i = 0 <= _ref1 ? ++_k : --_k) {
+      for (i = _i = 0, _ref = game.level.rows; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
         this.nodeMap[i] = [];
       }
       this.addToOpenList({

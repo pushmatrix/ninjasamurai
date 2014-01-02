@@ -1,19 +1,19 @@
 class Enemy
-  constructor: ->
-    @position  = { x: 400, y: 460 }
+  constructor: (x, y)->
+    @position  = { x: x || 400, y: y || 460 }
     @speed     = 4
     @angle     = 0
     @rotation  = 0
     @target    = null
     @waypoints = []
     @size = 24
+    @color = "#ff99ee"
 
   update: ->
-   
-    for row in game.level.tiles
-      for tile in row
-        tile.fill = null
-    game.level.findIntersection(@position.x, @position.y, game.player.position.x, game.player.position.y)
+    if game.level.findIntersection(@position.x, @position.y, game.player.position.x, game.player.position.y)
+      @color = "#0099ff"
+    else
+      @color = "#ff99ee"
 
     #row = Math.floor(@position.y / Tile.size)
     #col = Math.floor(@position.x / Tile.size) 
@@ -52,7 +52,7 @@ class Enemy
 
   render: ->
     game.context.beginPath()
-    game.context.fillStyle = "#ff99ee"
+    game.context.fillStyle = @color
     game.context.translate(@size * 0.5, @size * 0.5)
     game.context.rotate(-@rotation)
     game.context.translate(-@position.x, -@position.y)

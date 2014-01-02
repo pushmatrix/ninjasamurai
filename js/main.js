@@ -18,21 +18,45 @@
       this.width = this.canvas.width;
       this.height = this.canvas.height;
       this.player = new Player();
-      this.enemy = new Enemy();
+      this.enemies = [];
+      this.addEnemy(208, 176);
+      this.addEnemy(400, 464);
+      this.addEnemy(560, 48);
+      this.addEnemy(48, 400);
       KeyHandler.listen();
     }
 
+    Game.prototype.addEnemy = function(x, y) {
+      return this.enemies.push(new Enemy(x, y));
+    };
+
     Game.prototype.loadLevel = function(map) {
-      this.level = new Level(map);
-      return this.level.findIntersection(0, 0, 100, 100);
+      return this.level = new Level(map);
     };
 
     Game.prototype.render = function() {
+      var enemy, row, tile, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2;
+      _ref = this.level.tiles;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        row = _ref[_i];
+        for (_j = 0, _len1 = row.length; _j < _len1; _j++) {
+          tile = row[_j];
+          tile.fill = null;
+        }
+      }
       this.player.update();
+      _ref1 = this.enemies;
+      for (_k = 0, _len2 = _ref1.length; _k < _len2; _k++) {
+        enemy = _ref1[_k];
+        enemy.update();
+      }
       this.level.render();
+      _ref2 = this.enemies;
+      for (_l = 0, _len3 = _ref2.length; _l < _len3; _l++) {
+        enemy = _ref2[_l];
+        enemy.render();
+      }
       this.player.render();
-      this.enemy.update();
-      this.enemy.render();
       return requestAnimationFrame(this.render, this.canvas);
     };
 

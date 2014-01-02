@@ -1,9 +1,6 @@
 class Pathfinder
   constructor: (@startCol, @startRow, @targetCol, @targetRow) ->
     @open = @closed = []
-    for row in game.level.tiles
-      for tile in row
-        tile.fill = null
     game.level.tiles[@targetRow][@targetCol].fill = "#ff0000"
     game.level.tiles[@startRow][@startCol].fill = "#00ff00"
 

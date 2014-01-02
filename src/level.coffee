@@ -24,7 +24,10 @@ class Level
   visit: (x, y) ->
     row = Math.floor(y / Tile.size)
     col = Math.floor(x / Tile.size)
-    game.level.tiles[row][col].fill = "eee"
+    collision = game.level.map[row * game.level.rows + col] != "."
+    if !collision
+      game.level.tiles[row][col].fill = "eee"
+    return !collision
   findIntersection: (x0, y0, x1, y1) ->
     dx = Math.abs(x1 - x0)
     dy = Math.abs(y1 - y0)
@@ -61,13 +64,16 @@ class Level
 
     while n > 0
       --n
-      @visit(x, y)
+      if !@visit(x, y)
+        return false
       if error > 0
         y += yInc
         error -= dx
       else 
         x += xInc
         error += dy
+
+    true
 
 
 

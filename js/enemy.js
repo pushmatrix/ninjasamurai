@@ -4,10 +4,10 @@
 
   Enemy = (function() {
 
-    function Enemy() {
+    function Enemy(x, y) {
       this.position = {
-        x: 400,
-        y: 460
+        x: x || 400,
+        y: y || 460
       };
       this.speed = 4;
       this.angle = 0;
@@ -15,24 +15,20 @@
       this.target = null;
       this.waypoints = [];
       this.size = 24;
+      this.color = "#ff99ee";
     }
 
     Enemy.prototype.update = function() {
-      var row, tile, _i, _j, _len, _len1, _ref;
-      _ref = game.level.tiles;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        row = _ref[_i];
-        for (_j = 0, _len1 = row.length; _j < _len1; _j++) {
-          tile = row[_j];
-          tile.fill = null;
-        }
+      if (game.level.findIntersection(this.position.x, this.position.y, game.player.position.x, game.player.position.y)) {
+        return this.color = "#0099ff";
+      } else {
+        return this.color = "#ff99ee";
       }
-      return game.level.findIntersection(this.position.x, this.position.y, game.player.position.x, game.player.position.y);
     };
 
     Enemy.prototype.render = function() {
       game.context.beginPath();
-      game.context.fillStyle = "#ff99ee";
+      game.context.fillStyle = this.color;
       game.context.translate(this.size * 0.5, this.size * 0.5);
       game.context.rotate(-this.rotation);
       game.context.translate(-this.position.x, -this.position.y);

@@ -55,14 +55,18 @@
     };
 
     Level.prototype.visit = function(x, y) {
-      var col, row;
+      var col, collision, row;
       row = Math.floor(y / Tile.size);
       col = Math.floor(x / Tile.size);
-      return game.level.tiles[row][col].fill = "eee";
+      collision = game.level.map[row * game.level.rows + col] !== ".";
+      if (!collision) {
+        game.level.tiles[row][col].fill = "eee";
+      }
+      return !collision;
     };
 
     Level.prototype.findIntersection = function(x0, y0, x1, y1) {
-      var dx, dy, error, n, x, xInc, y, yInc, _results;
+      var dx, dy, error, n, x, xInc, y, yInc;
       dx = Math.abs(x1 - x0);
       dy = Math.abs(y1 - y0);
       x = Math.floor(x0);
@@ -93,19 +97,20 @@
         n += y - Math.floor(y1);
         error -= (y0 - Math.floor(y0)) * dx;
       }
-      _results = [];
       while (n > 0) {
         --n;
-        this.visit(x, y);
+        if (!this.visit(x, y)) {
+          return false;
+        }
         if (error > 0) {
           y += yInc;
-          _results.push(error -= dx);
+          error -= dx;
         } else {
           x += xInc;
-          _results.push(error += dy);
+          error += dy;
         }
       }
-      return _results;
+      return true;
     };
 
     return Level;
