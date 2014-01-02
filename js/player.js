@@ -6,8 +6,8 @@
 
     function Player() {
       this.position = {
-        x: 100,
-        y: 100
+        x: 548,
+        y: 570
       };
       this.tile = {
         row: 0,
@@ -15,7 +15,7 @@
       };
       this.speed = 7;
       this.angle = 0;
-      this.size = 32;
+      this.size = 24;
     }
 
     Player.prototype.update = function() {
@@ -54,10 +54,7 @@
         this.position.x = nextPosition.x;
       }
       row = Math.floor(this.position.y / Tile.size);
-      col = Math.floor(this.position.x / Tile.size);
-      if ((row !== Math.floor(oldPosition.y / Tile.size)) || (col !== Math.floor(oldPosition.x / Tile.size))) {
-        return new Pathfinder(col, row, 5, 5);
-      }
+      return col = Math.floor(this.position.x / Tile.size);
     };
 
     Player.prototype.render = function() {

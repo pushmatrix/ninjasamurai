@@ -5,7 +5,7 @@
   Pathfinder = (function() {
 
     function Pathfinder(startCol, startRow, targetCol, targetRow) {
-      var finished, i, node, row, tile, _i, _j, _k, _len, _len1, _ref, _ref1;
+      var direction, finished, i, node, row, tile, _i, _j, _k, _len, _len1, _ref, _ref1;
       this.startCol = startCol;
       this.startRow = startRow;
       this.targetCol = targetCol;
@@ -37,11 +37,18 @@
         this.open.splice(this.open.indexOf(node), 1);
         this.nodeMap[node.row][node.col].state = 'c';
         if (!node) {
+          console.log('no path found');
           finished = 1;
         } else if (node.row === this.targetRow && node.col === this.targetCol) {
+          direction = "";
+          this.path = [];
           while (node) {
             if (!(node.row === this.startRow && node.col === this.startCol) && !(node.row === this.targetRow && node.col === this.targetCol)) {
-              game.level.tiles[node.row][node.col].fill = "#fff";
+              if (node.direction !== direction) {
+                this.path.push([node.col, node.row]);
+                game.level.tiles[node.row][node.col].fill = "#fff";
+                direction = node.direction;
+              }
             }
             node = node.parent;
           }
@@ -81,7 +88,8 @@
                 if (node.g + movementCost < newNode.g) {
                   newNode.parent = node;
                   newNode.h = this.getManhattanDistance(col, row);
-                  _results1.push(newNode.f = node.g + g + newNode.h);
+                  newNode.f = node.g + g + newNode.h;
+                  _results1.push(newNode.direction = "" + i + j);
                 } else {
                   _results1.push(void 0);
                 }
@@ -95,6 +103,7 @@
                   f: f,
                   g: g,
                   h: h,
+                  direction: "" + i + j,
                   parent: node
                 }));
               }

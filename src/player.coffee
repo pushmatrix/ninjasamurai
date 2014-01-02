@@ -1,10 +1,10 @@
 class Player
   constructor: ->
-    @position = { x: 100, y: 100 }
+    @position = { x: 548, y: 570 }
     @tile     = { row: 0, col: 0 }
     @speed = 7
     @angle = 0
-    @size = 32
+    @size = 24
   update: ->
     nextPosition = { x: @position.x, y: @position.y }
     if KeyHandler.isDown 'w'
@@ -39,9 +39,9 @@ class Player
     # got into a new tile
     row = Math.floor(@position.y / Tile.size)
     col = Math.floor(@position.x / Tile.size) 
-    if (row != Math.floor(oldPosition.y / Tile.size)) || (col != Math.floor(oldPosition.x / Tile.size))
-      new Pathfinder(col, row, 5, 5)
-
+    #if (row != Math.floor(oldPosition.y / Tile.size)) || (col != Math.floor(oldPosition.x / Tile.size))
+    #  path = new Pathfinder(col, row, 5, 5)
+#
     
 
 

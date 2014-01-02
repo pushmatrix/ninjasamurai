@@ -6,8 +6,8 @@
 
     function Level(map) {
       this.map = map;
-      this.rows = 10;
-      this.cols = 10;
+      this.rows = 20;
+      this.cols = 20;
       this.tiles = [];
       this.buildTiles();
     }

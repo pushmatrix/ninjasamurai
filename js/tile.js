@@ -35,7 +35,7 @@
 
   })();
 
-  Tile.size = 64;
+  Tile.size = 32;
 
   window.Tile = Tile;
 

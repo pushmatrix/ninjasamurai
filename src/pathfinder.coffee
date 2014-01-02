@@ -24,14 +24,21 @@ class Pathfinder
       @open.splice(@open.indexOf(node), 1)
       @nodeMap[node.row][node.col].state = 'c'
       if !node
-        #console.log 'no path found'
+        console.log 'no path found'
         finished = 1
       else if node.row == @targetRow && node.col == @targetCol
         #console.log 'finished!'
+        direction = ""
+        @path = []
         while node
-          #console.log node.row, node.col
           if !(node.row == @startRow && node.col == @startCol) && !(node.row == @targetRow && node.col == @targetCol)
-            game.level.tiles[node.row][node.col].fill = "#fff"
+            if node.direction != direction
+              @path.push [node.col, node.row]
+              game.level.tiles[node.row][node.col].fill = "#fff"
+              direction = node.direction
+          #console.log node.row, node.col
+           # console.log 'ok'
+            #game.level.tiles[node.row][node.col].fill = "#fff"
           node = node.parent
         finished = 1
       else
@@ -68,6 +75,7 @@ class Pathfinder
               # recalculate f, g, h for node
               newNode.h = @getManhattanDistance(col, row)
               newNode.f = node.g + g + newNode.h
+              newNode.direction = "#{i}#{j}"
           else
             #console.log 'adding to open list', col, row
             g = node.g + movementCost
@@ -79,6 +87,7 @@ class Pathfinder
               f: f
               g: g
               h: h
+              direction: "#{i}#{j}"
               parent: node
 
 

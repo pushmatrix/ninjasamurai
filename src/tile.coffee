@@ -22,5 +22,5 @@ class Tile
       game.context.drawImage(@image, @col * Tile.size, @row * Tile.size) 
 
 
-Tile.size = 64
+Tile.size = 32
 window.Tile = Tile
