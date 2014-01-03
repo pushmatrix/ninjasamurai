@@ -3,17 +3,24 @@ class Enemy
     @position  = { x: x || 400, y: y || 460 }
     @speed     = 4
     @angle     = 0
-    @rotation  = 0
+    @rotation  = Math.PI
     @target    = null
     @waypoints = []
     @size = 24
     @color = "#ff99ee"
     @spotted = false
+    @direction = new Vector()
+    @toPlayer = new Vector()
 
   update: ->
     if game.level.findIntersection(@position.x, @position.y, game.player.position.x, game.player.position.y)
-      @color = "#0099ff"
-      @spotted = true
+      @toPlayer.x = game.player.position.x - @position.x
+      @toPlayer.y = game.player.position.y - @position.y
+      @direction.x =  Math.cos(@rotation)
+      @direction.y =  Math.sin(@rotation)
+      if @toPlayer.angleBetween(@direction) < 80
+        @color = "#0099ff"
+        @spotted = true
     else
       @color = "#ff99ee"
       @spotted = false
@@ -61,6 +68,7 @@ class Enemy
     game.context.rotate(-@rotation)
     game.context.translate(-@position.x, -@position.y)
     game.context.rect(0, 0, @size, @size)
+    game.context.rect(@size, 18, 20, 4)
     game.context.resetTransform()
     game.context.fill()
 

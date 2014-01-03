@@ -54,4 +54,6 @@ map = ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'
 
 game.loadLevel(map)
 game.render()
+
+
 #new Pathfinder(2, 4, 6, 4)

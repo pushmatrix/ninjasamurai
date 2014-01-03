@@ -11,19 +11,27 @@
       };
       this.speed = 4;
       this.angle = 0;
-      this.rotation = 0;
+      this.rotation = Math.PI;
       this.target = null;
       this.waypoints = [];
       this.size = 24;
       this.color = "#ff99ee";
       this.spotted = false;
+      this.direction = new Vector();
+      this.toPlayer = new Vector();
     }
 
     Enemy.prototype.update = function() {
       var col, dx, dy, moveX, moveY, path, row, waypoint;
       if (game.level.findIntersection(this.position.x, this.position.y, game.player.position.x, game.player.position.y)) {
-        this.color = "#0099ff";
-        this.spotted = true;
+        this.toPlayer.x = game.player.position.x - this.position.x;
+        this.toPlayer.y = game.player.position.y - this.position.y;
+        this.direction.x = Math.cos(this.rotation);
+        this.direction.y = Math.sin(this.rotation);
+        if (this.toPlayer.angleBetween(this.direction) < 80) {
+          this.color = "#0099ff";
+          this.spotted = true;
+        }
       } else {
         this.color = "#ff99ee";
         this.spotted = false;
@@ -76,6 +84,7 @@
       game.context.rotate(-this.rotation);
       game.context.translate(-this.position.x, -this.position.y);
       game.context.rect(0, 0, this.size, this.size);
+      game.context.rect(this.size, 18, 20, 4);
       game.context.resetTransform();
       return game.context.fill();
     };

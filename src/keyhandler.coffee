@@ -14,6 +14,7 @@ class KeyHandler
     's': 83
   }
 
+
   @listen: ->
     return if @downListener
     @pressed = {}
