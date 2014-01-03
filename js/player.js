@@ -16,10 +16,11 @@
       this.speed = 7;
       this.angle = 0;
       this.size = 24;
+      this.direction = new Vector();
     }
 
     Player.prototype.update = function() {
-      var col, dx, dy, nextPosition, oldPosition, row;
+      var col, distance, dx, dy, enemy, nextPosition, oldPosition, row, toEnemy, _i, _len, _ref, _results;
       nextPosition = {
         x: this.position.x,
         y: this.position.y
@@ -54,7 +55,28 @@
         this.position.x = nextPosition.x;
       }
       row = Math.floor(this.position.y / Tile.size);
-      return col = Math.floor(this.position.x / Tile.size);
+      col = Math.floor(this.position.x / Tile.size);
+      this.direction.x = Math.cos(this.angle);
+      this.direction.y = Math.sin(this.angle);
+      if (KeyHandler.mousePressed) {
+        _ref = game.enemies;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          enemy = _ref[_i];
+          distance = enemy.toPlayer.magnitude();
+          if (distance < Tile.size + 20) {
+            toEnemy = new Vector(enemy.position.x - this.position.x, enemy.position.y - this.position.y);
+            if (this.direction.angleBetween(toEnemy) < 30) {
+              _results.push(enemy.alive = false);
+            } else {
+              _results.push(void 0);
+            }
+          } else {
+            _results.push(void 0);
+          }
+        }
+        return _results;
+      }
     };
 
     Player.prototype.render = function() {
@@ -64,7 +86,11 @@
       game.context.rotate(-this.angle);
       game.context.translate(-this.position.x, -this.position.y);
       game.context.rect(0, 0, this.size, this.size);
-      game.context.rect(this.size, 18, 20, 4);
+      if (KeyHandler.mousePressed) {
+        game.context.rect(this.size, 18, 28, 4);
+      } else {
+        game.context.rect(this.size, 18, 15, 4);
+      }
       game.context.resetTransform();
       return game.context.fill();
     };

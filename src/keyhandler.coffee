@@ -1,3 +1,4 @@
+# TODO: Rename to show that it deals with the mouse too :)
 class KeyHandler
   @KEY_MAP = KEY_MAP = {
     'up': 38
@@ -14,7 +15,6 @@ class KeyHandler
     's': 83
   }
 
-
   @listen: ->
     return if @downListener
     @pressed = {}
@@ -22,6 +22,8 @@ class KeyHandler
     @downListener = window.addEventListener 'keydown', (e) => @pressed[e.keyCode] = true; e.stopPropagation()
     @upListener = window.addEventListener 'keyup', (e) => @pressed[e.keyCode] = false; e.stopPropagation()
     window.addEventListener 'mousemove', (e) => @mouse.x = e.x; @mouse.y = e.y; e.stopPropagation()
+    window.addEventListener 'mousedown', (e) => @mousePressed = true; e.stopPropagation()
+    window.addEventListener 'mouseup', (e) => @mousePressed = false; e.stopPropagation()
 
   @isDown: (keyName) ->
     @pressed[KEY_MAP[keyName]]

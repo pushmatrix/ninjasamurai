@@ -37,9 +37,17 @@
         _this.pressed[e.keyCode] = false;
         return e.stopPropagation();
       });
-      return window.addEventListener('mousemove', function(e) {
+      window.addEventListener('mousemove', function(e) {
         _this.mouse.x = e.x;
         _this.mouse.y = e.y;
+        return e.stopPropagation();
+      });
+      window.addEventListener('mousedown', function(e) {
+        _this.mousePressed = true;
+        return e.stopPropagation();
+      });
+      return window.addEventListener('mouseup', function(e) {
+        _this.mousePressed = false;
         return e.stopPropagation();
       });
     };

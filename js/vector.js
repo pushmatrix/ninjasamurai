@@ -24,11 +24,17 @@
       return this.x * vec.x + this.y * vec.y;
     };
 
+    Vector.prototype.copy = function() {
+      return new Vector(this.x, this.y);
+    };
+
     Vector.prototype.angleBetween = function(vec) {
-      var angle;
-      this.normalize();
-      vec.normalize();
-      angle = Math.acos(this.dot(vec));
+      var angle, vec1, vec2;
+      vec1 = this.copy();
+      vec2 = vec.copy();
+      vec1.normalize();
+      vec2.normalize();
+      angle = Math.acos(vec1.dot(vec2));
       return angle * 180 / Math.PI;
     };
 

@@ -12,14 +12,18 @@ class Vector
   dot: (vec) ->
     @x * vec.x + @y * vec.y
 
-  # TODO: Prevent normalization on NON-COPY of vector
+  copy: ->
+    new Vector(@x, @y)
+
 
   angleBetween: (vec)->
-    @normalize()
-    vec.normalize()
+    vec1 = @copy()
+    vec2 = vec.copy()
+    vec1.normalize()
+    vec2.normalize()
 
     # a . b = ||a|| * ||b|| cos(0)
-    angle = Math.acos(@dot(vec))
+    angle = Math.acos(vec1.dot(vec2))
     angle * 180 / Math.PI 
 
 window.Vector = Vector
