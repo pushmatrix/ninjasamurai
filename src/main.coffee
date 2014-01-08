@@ -1,30 +1,39 @@
-#= require enemy
-#= require keyhandler
-#= require level
-#= require player
-#= require pathfinder
-#= require tile
 #= require vector
+
+#= require tile
+#= require level
+
+#= require player
+#= require input_manager
+
+#= require enemy
+#= require pathfinder
 
 class Game
   constructor: (@canvas) ->
     @context = @canvas.getContext('2d')
     @width   = @canvas.width
     @height  = @canvas.height
-    @player = new Player()
+    @player = new Player(0, Playstation4Map)
+
     @enemies = []
     @addEnemy(208, 176)
     @addEnemy(400, 464)
     @addEnemy(560, 48)
     @addEnemy(48, 400)
-    KeyHandler.listen()
+
+    @input = new InputManager
+
 
   addEnemy: (x, y) ->
     @enemies.push new Enemy(x, y)
+
   loadLevel: (map) =>
     @level = new Level(map)
 
   render: =>
+    @input.update()
+
     for row in @level.tiles
       for tile in row
         tile.fill = null

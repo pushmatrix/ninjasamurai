@@ -1,29 +1,27 @@
 class Player
-  constructor: ->
+  constructor: (@controllerNumber, @controllerMap) ->
     @position = { x: 548, y: 570 }
     @tile     = { row: 0, col: 0 }
     @speed = 7
     @angle = 0
     @size = 24
     @direction = new Vector()
+
   update: ->
-
     nextPosition = { x: @position.x, y: @position.y }
-    if KeyHandler.isDown 'w'
-      nextPosition.y -= @speed
-    if KeyHandler.isDown 's'
-      nextPosition.y += @speed
-    if KeyHandler.isDown 'a'
-      nextPosition.x -= @speed
-    if KeyHandler.isDown 'd'
-      nextPosition.x += @speed
 
+    leftX = game.input.stickMoved(@controllerNumber, @controllerMap.LEFT_X)
+    leftY = game.input.stickMoved(@controllerNumber, @controllerMap.LEFT_Y)
+    rightX = game.input.stickMoved(@controllerNumber, @controllerMap.RIGHT_X)
+    rightY = game.input.stickMoved(@controllerNumber, @controllerMap.RIGHT_Y)
 
-    #dx = KeyHandler.mouse.x - Tile.size * game.level.cols * 0.5
-    #dy = KeyHandler.mouse.y - Tile.size * game.level.rows * 0.5
-    
-    dx = KeyHandler.mouse.x - @position.x
-    dy = KeyHandler.mouse.y - @position.y
+    if Math.abs(leftX) > 0.5
+      nextPosition.x += @speed * leftX
+    if Math.abs(leftY) > 0.5
+      nextPosition.y += @speed * leftY
+
+    dx = @position.x
+    dy = @position.y
     @angle = Math.atan2(dy, dx)
 
     oldPosition = { x: @position.x, y: @position.y }
@@ -43,22 +41,22 @@ class Player
 
     # got into a new tile
     row = Math.floor(@position.y / Tile.size)
-    col = Math.floor(@position.x / Tile.size) 
+    col = Math.floor(@position.x / Tile.size)
     #if (row != Math.floor(oldPosition.y / Tile.size)) || (col != Math.floor(oldPosition.x / Tile.size))
     #  path = new Pathfinder(col, row, 5, 5)
 #
 
     @direction.x =  Math.cos(@angle)
     @direction.y =  Math.sin(@angle)
-    if KeyHandler.mousePressed
-      for enemy in game.enemies
-        distance = enemy.toPlayer.magnitude()
-        if distance < Tile.size + 20
-          toEnemy = new Vector(enemy.position.x - @position.x, enemy.position.y - @position.y)
-          if @direction.angleBetween(toEnemy) < 30
-            enemy.alive = false
+    # if KeyHandler.mousePressed
+    #   for enemy in game.enemies
+    #     distance = enemy.toPlayer.magnitude()
+    #     if distance < Tile.size + 20
+    #       toEnemy = new Vector(enemy.position.x - @position.x, enemy.position.y - @position.y)
+    #       if @direction.angleBetween(toEnemy) < 30
+    #         enemy.alive = false
 
-    
+
 
 
 
@@ -70,10 +68,10 @@ class Player
     game.context.rotate(-@angle)
     game.context.translate(-@position.x, -@position.y)
     game.context.rect(0, 0, @size, @size)
-    if KeyHandler.mousePressed
-      game.context.rect(@size, 18, 28, 4)
-    else
-      game.context.rect(@size, 18, 15, 4)
+    # if KeyHandler.mousePressed
+    #   game.context.rect(@size, 18, 28, 4)
+    # else
+    #   game.context.rect(@size, 18, 15, 4)
     game.context.resetTransform()
     game.context.fill()
 window.Player = Player
