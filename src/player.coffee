@@ -1,14 +1,15 @@
 class Player
   constructor: (@controllerNumber, @controllerMap) ->
-    @position = { x: 548, y: 570 }
-    @tile     = { row: 0, col: 0 }
-    @speed = 7
-    @angle = 0
-    @size = 24
+    @position = new Vector(548, 570)
     @direction = new Vector()
 
+    @speed = 7
+    @angle = Math.PI * 1.5
+    @size = 24
+
   update: ->
-    nextPosition = { x: @position.x, y: @position.y }
+    nextPosition = @position.clone()
+    oldPosition = @position.clone()
 
     leftX = game.input.stickMoved(@controllerNumber, @controllerMap.LEFT_X)
     leftY = game.input.stickMoved(@controllerNumber, @controllerMap.LEFT_Y)
@@ -20,11 +21,8 @@ class Player
     if Math.abs(leftY) > 0.5
       nextPosition.y += @speed * leftY
 
-    dx = @position.x
-    dy = @position.y
-    @angle = Math.atan2(dy, dx)
-
-    oldPosition = { x: @position.x, y: @position.y }
+    if Math.abs(rightX) > 0.5 || Math.abs(rightY) > 0.5
+      @angle = Math.atan2(rightY, rightX)
 
     # Major refactor needed
     row = Math.floor(nextPosition.y / Tile.size)
@@ -46,8 +44,8 @@ class Player
     #  path = new Pathfinder(col, row, 5, 5)
 #
 
-    @direction.x =  Math.cos(@angle)
-    @direction.y =  Math.sin(@angle)
+    @direction.x =  rightX
+    @direction.y =  rightY
     # if KeyHandler.mousePressed
     #   for enemy in game.enemies
     #     distance = enemy.toPlayer.magnitude()
@@ -71,7 +69,7 @@ class Player
     # if KeyHandler.mousePressed
     #   game.context.rect(@size, 18, 28, 4)
     # else
-    #   game.context.rect(@size, 18, 15, 4)
+    game.context.rect(@size, 18, 15, 4)
     game.context.resetTransform()
     game.context.fill()
 window.Player = Player
