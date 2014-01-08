@@ -14,16 +14,11 @@ class Game
     @context = @canvas.getContext('2d')
     @width   = @canvas.width
     @height  = @canvas.height
-    @player = new Player(0, Playstation4Map)
 
+    @players = []
     @enemies = []
-    @addEnemy(208, 176)
-    @addEnemy(400, 464)
-    @addEnemy(560, 48)
-    @addEnemy(48, 400)
 
     @input = new InputManager
-
 
   addEnemy: (x, y) ->
     @enemies.push new Enemy(x, y)
@@ -38,15 +33,19 @@ class Game
       for tile in row
         tile.fill = null
 
-    @player.update()
+    for player in @players
+      player?.update()
+
     for enemy in @enemies
-      enemy.update()
+      enemy?.update()
 
     @level.render()
-    for enemy in @enemies
-      enemy.render()
 
-    @player.render()
+    for player in @players
+      player?.render()
+
+    for enemy in @enemies
+      enemy?.render()
 
     requestAnimationFrame(@render, @canvas)
 
@@ -75,7 +74,13 @@ window.onload = ->
          'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']
 
   @game.loadLevel(map)
+
+  game.addEnemy(208, 176)
+  game.addEnemy(400, 464)
+  game.addEnemy(560, 48)
+  game.addEnemy(48, 400)
+
   @game.render()
 
   gui = new dat.GUI()
-  gui.add(game.player, 'useRightStickControls').name('Easy Controls')
+  gui.add(game.input, 'useRightStickControls').name('Easy Controls')

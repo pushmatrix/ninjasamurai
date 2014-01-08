@@ -1,6 +1,4 @@
 class Player
-  useRightStickControls: true
-
   constructor: (@controllerNumber, @controllerMap) ->
     @position = new Vector(548, 570)
     @direction = new Vector()
@@ -23,7 +21,7 @@ class Player
     if Math.abs(leftY) > 0.5
       nextPosition.y += @speed * leftY
 
-    if @useRightStickControls
+    if game.input.useRightStickControls
       rotX = rightX
       rotY = rightY
     else
