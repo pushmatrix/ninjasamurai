@@ -1,4 +1,6 @@
 class Player
+  useRightStickControls: true
+
   constructor: (@controllerNumber, @controllerMap) ->
     @position = new Vector(548, 570)
     @direction = new Vector()
@@ -21,8 +23,15 @@ class Player
     if Math.abs(leftY) > 0.5
       nextPosition.y += @speed * leftY
 
-    if Math.abs(rightX) > 0.5 || Math.abs(rightY) > 0.5
-      @angle = Math.atan2(rightY, rightX)
+    if @useRightStickControls
+      rotX = rightX
+      rotY = rightY
+    else
+      rotX = leftX
+      rotY = leftY
+
+    if Math.abs(rotX) > 0.5 || Math.abs(rotY) > 0.5
+      @angle = Math.atan2(rotY, rotX)
 
     # Major refactor needed
     row = Math.floor(nextPosition.y / Tile.size)
