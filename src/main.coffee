@@ -83,4 +83,4 @@ window.onload = ->
   @game.render()
 
   gui = new dat.GUI()
-  gui.add(game.input, 'useRightStickControls').name('Easy Controls')
+  gui.add(game.input, 'useRightStickControls').name('Use Right Stick')

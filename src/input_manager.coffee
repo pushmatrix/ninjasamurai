@@ -16,6 +16,8 @@ class InputManager
 
         game.players[i] = new Player(i, map)
 
+    return
+
   buttonPressed: (controllerNumber, button) ->
     return !!@controllers[controllerNumber]?.buttons[button]
 
