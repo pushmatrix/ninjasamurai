@@ -1,3 +1,11 @@
+#= require enemy
+#= require keyhandler
+#= require level
+#= require player
+#= require pathfinder
+#= require tile
+#= require vector
+
 class Game
   constructor: (@canvas) ->
     @context = @canvas.getContext('2d')
