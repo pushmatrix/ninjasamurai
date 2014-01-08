@@ -41,10 +41,13 @@ class Game
     @player.update()
     for enemy in @enemies
       enemy.update()
+
     @level.render()
     for enemy in @enemies
       enemy.render()
+
     @player.render()
+
     requestAnimationFrame(@render, @canvas)
 
 window.game = new Game(document.getElementById('game'))

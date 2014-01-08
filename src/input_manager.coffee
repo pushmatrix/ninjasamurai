@@ -1,15 +1,15 @@
 class InputManager
-  constructor: ->
-    @player = []
+  axesThreshold: 0.5
+  buttonThreshold: 0.5
 
   update: ->
-    gamepads = navigator.webkitGetGamepads()
+    @controllers = navigator.webkitGetGamepads()
 
-    for i in [0..4]
-      @player[i] = gamepads[i]
+  buttonPressed: (controllerNumber, button) ->
+    return !!@controllers[controllerNumber]?.buttons[button]
 
   stickMoved: (controllerNumber, stick) ->
-    @player[controllerNumber].axes[stick]
+    return @controllers[controllerNumber]?.axes[stick]
 
 Playstation4Map = {
   LEFT_X: 0
@@ -21,4 +21,11 @@ Playstation4Map = {
   FACE_2: 2
   FACE_3: 0
   FACE_4: 3
+
+  LEFT_BUTTON: 4
+  LEFT_TRIGGER: 6
+  LEFT_STICK: 10
+  RIGHT_BUTTON: 5
+  RIGHT_TRIGGER: 7
+  RIGHT_STICK: 11
 }

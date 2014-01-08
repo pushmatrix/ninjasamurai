@@ -40,24 +40,18 @@ class Player
     # got into a new tile
     row = Math.floor(@position.y / Tile.size)
     col = Math.floor(@position.x / Tile.size)
-    #if (row != Math.floor(oldPosition.y / Tile.size)) || (col != Math.floor(oldPosition.x / Tile.size))
-    #  path = new Pathfinder(col, row, 5, 5)
-#
 
-    @direction.x =  rightX
-    @direction.y =  rightY
-    # if KeyHandler.mousePressed
-    #   for enemy in game.enemies
-    #     distance = enemy.toPlayer.magnitude()
-    #     if distance < Tile.size + 20
-    #       toEnemy = new Vector(enemy.position.x - @position.x, enemy.position.y - @position.y)
-    #       if @direction.angleBetween(toEnemy) < 30
-    #         enemy.alive = false
-
-
-
-
-
+    # attacking
+    @isAttacking = game.input.buttonPressed(@controllerNumber, @controllerMap.RIGHT_TRIGGER)
+    if @isAttacking
+      @direction.x = Math.cos(@angle)
+      @direction.y = Math.sin(@angle)
+      for enemy in game.enemies
+        distance = enemy.toPlayer.magnitude()
+        if distance < Tile.size + 20
+          toEnemy = new Vector(enemy.position.x - @position.x, enemy.position.y - @position.y)
+          if @direction.angleBetween(toEnemy) < 30
+            enemy.alive = false
 
   render: ->
     game.context.beginPath()
@@ -66,10 +60,11 @@ class Player
     game.context.rotate(-@angle)
     game.context.translate(-@position.x, -@position.y)
     game.context.rect(0, 0, @size, @size)
-    # if KeyHandler.mousePressed
-    #   game.context.rect(@size, 18, 28, 4)
-    # else
-    game.context.rect(@size, 18, 15, 4)
+
+    # sword
+    game.context.rect(@size, 18, (if @isAttacking then 28 else 15), 4)
+
     game.context.resetTransform()
     game.context.fill()
+
 window.Player = Player
