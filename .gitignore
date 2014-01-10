@@ -1,1 +1,5 @@
 *.DS_STORE
+lib/impact
+lib/weltmeister
+tools/
+weltmeister.html
